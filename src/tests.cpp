@@ -16,13 +16,13 @@ int main(int argc, char* args[]) {
 
     SDL_Surface* screenSurface = NULL;
     SDL_Surface* image = NULL;
-    SDL_Class* SDL_funcs(SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_Class SDL_funcs(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    if(!SDL_funcs->init(window, screenSurface)) {
-        print("Failed to init!\n");
+    if(!SDL_funcs.init(window, screenSurface)) {
+        printf("Failed to init!\n");
     }
     else {
-        if(!SDL_funcs->load_media(image, "../graphics/Characters/Cat0.png")) {
+        if(!SDL_funcs.load_media(image, "../graphics/Characters/Cat0.png")) {
             printf("Failed to load media!\n");
         }
         else {
@@ -34,6 +34,6 @@ int main(int argc, char* args[]) {
             SDL_Delay(2000);
         }
     }
-    SDL_funcs->quit(image, window);
+    SDL_funcs.quit(image, window);
     return 0;
 }

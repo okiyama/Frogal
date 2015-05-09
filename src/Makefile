@@ -9,7 +9,7 @@ LDIR =../lib
 
 LIBS=-lSDL2
 
-_DEPS = sdl_class.h 
+_DEPS = sdl_class.h SDL_image.h 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 OBJ = sdl_class.o tests.o 
@@ -17,15 +17,18 @@ OBJ = sdl_class.o tests.o
 
 
 %.o: %.cpp $(DEPS)
+	@echo "in o"
 	$(CC) -c -o $@ $< $(CFLAGS) $(LIBS)
 
-tests: tests.o
+tests: sdl_class.o tests.o
+	@echo "in tests"
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 all: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS) $(LIBS)
+	@echo "in all"
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 
 clean:
-	rm -f *.o *~ core $(INCDIR)/*~ 
+	rm -f *.o *~ core $(IDIR)/*~ 

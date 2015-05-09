@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <sdl_class.h>
+#include <SDL2/SDL_image.h>
 
 /**
  * Constructor, just sets the width and height for now.
@@ -19,7 +20,7 @@ SDL_Class::SDL_Class(int width, int height) {
 /**
  * Init SDL along with a window and a surface to work with.
  */
-bool SDL_Class::init(SDL_Window& window, SDL_Surface& surface) {
+bool SDL_Class::init(SDL_Window* window, SDL_Surface* surface) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL failed to initialize. Error: %s\n", SDL_GetError());
         return false;
@@ -41,8 +42,8 @@ bool SDL_Class::init(SDL_Window& window, SDL_Surface& surface) {
 /**
  * Loads an image onto the given surface.
  */
-bool SDL_Class:load_media(SDL_Surface& image, std::string filename) {
-    image = SDL_LoadBMP(filename);
+bool SDL_Class::load_media(SDL_Surface* image, char* filename) {
+    image = IMG_Load(filename);
     if (image == NULL) {
         printf("Unable to load image %s! Error: %s", filename, SDL_GetError());
         return false;
@@ -54,10 +55,10 @@ bool SDL_Class:load_media(SDL_Surface& image, std::string filename) {
 /**
  * Closes the SDL window and cleans objects
  */
-void SDL_Class::quit(SDL_Surface& image, SDL_Surface& window) {
-    SDL_FreeSurface(*image);
+void SDL_Class::quit(SDL_Surface* image, SDL_Window* window) {
+    SDL_FreeSurface(image);
     delete image;
-    SDL_DestroyWindow(*window);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 }
 
