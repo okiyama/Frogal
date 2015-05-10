@@ -1,32 +1,34 @@
 #Originally from: http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 #But will be heavily modified
 IDIR =../include
-CC=g++
-CFLAGS=-w -I$(IDIR)
+CXX=g++
+CXXFLAGS= 
+CPPFLAGS=-Wall -I$(IDIR) -std=c++11
 
 #ODIR=obj
 LDIR =../lib
+LDFLAGS=-L$(LDIR)
 
-LIBS=-lSDL2
+LDLIBS=-lSDL2 -lSDL2_image
 
-_DEPS = sdl_class.h SDL_image.h 
+_DEPS = sdl_class.h 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 OBJ = sdl_class.o tests.o 
 #OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
-%.o: %.cpp $(DEPS)
-	@echo "in o"
-	$(CC) -c -o $@ $< $(CFLAGS) $(LIBS)
+%.o: %.cpp
+	$(CXX) -c -o $@ $< $(CXXFLAGS) $(CPPFLAGS) 
 
-tests: sdl_class.o tests.o
-	@echo "in tests"
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+sdl_class.o tests.o: $(DEPS)
+
+debug: CXXFLAGS += -g
+debug: LDFLAGS += -g
+debug: all
 
 all: $(OBJ)
-	@echo "in all"
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS)  $(LDLIBS)
 
 .PHONY: clean
 

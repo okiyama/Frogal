@@ -11,11 +11,16 @@
 class SDL_Class {
     private:
         int window_width, window_height;
+        SDL_Window* window;
+        SDL_Surface* surface;
     public:
         SDL_Class(int, int);
-        bool init(SDL_Window*, SDL_Surface*);
-        bool load_media(SDL_Surface*, char*);
-        void quit(SDL_Surface*, SDL_Window*);
+        bool load_media(char*);
+        void quit();
+    private:
+        SDL_Window* init_window(int, int);
+        SDL_Surface* init_surface(SDL_Window*);
+        bool init_SDL();
 };
 
 #endif
